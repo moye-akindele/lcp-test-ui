@@ -1,0 +1,67 @@
+<div>
+    <button (click)="resetForm()" class="btn btn-success" [disabled]="!isEditMode" >Create Mode</button>
+</div>
+
+<div class="container">
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <input class="form-control" required formControlName="firstName">
+        </div>
+        <div class="form-group">
+            <input class="form-control" required formControlName="lastName">
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!clientForm.valid">Submit</button>
+    </form>
+</div>
+
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort >
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> FirstName </mat-header-cell>
+            <mat-cell *matCellDef="let row"> 
+                {{row.firstName}}
+            </mat-cell>
+        </ng-container>
+
+        <!-- lastName Column -->
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> LastName </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{row.lastName}}
+            </mat-cell>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+                <button _ngcontent-gij-c135="" (click)="editRecord(row)" mat-mini-fab=""
+                class="table-button button-blue mat-focus-indicator mat-mini-fab mat-button-base">
+                    <span class="mat-button-wrapper">Edit</span>
+                    <span matripple="" class="mat-ripple mat-button-ripple mat-button-ripple-round"></span>
+                    <span class="mat-button-focus-overlay"></span>
+                </button>
+
+                <button _ngcontent-gij-c135="" (click)="deleteRecord(row)" mat-mini-fab=""
+                class="table-button button-red mat-focus-indicator mat-mini-fab mat-button-base">
+                    <span class="mat-button-wrapper">Delete</span>
+                    <span matripple="" class="mat-ripple mat-button-ripple mat-button-ripple-round"></span>
+                    <span class="mat-button-focus-overlay"></span>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" >
+        </mat-row>
+
+        <!-- Row shown when there is no matching data. -->
+        <mat-row class="mat-row" *matNoDataRow>
+            <mat-cell class="mat-cell" colspan="4">No data available</mat-cell>
+        </mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+</div>
